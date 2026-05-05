@@ -1,0 +1,50 @@
+{
+  "generated_at": "2026-05-05T09:09:47.306159+00:00Z",
+  "source_optimal_risk": "data/stage_2/monte_carlo_optimal.json",
+  "source_atr_price": "data/stage_1/manifest.json",
+  "source_params": "data/stage_2/*_results.json",
+  "account_size": 5000.0,
+  "optimal_risk": 0.025,
+  "risk_dollar": 125.0,
+  "leverage": 100,
+  "positions": {
+    "Gold": {
+      "symbol": "XAUUSD",
+      "strategy": "donchian_vbo",
+      "params": {
+        "channel_n": 30,
+        "atr_n": 30,
+        "k_stop": 1.5,
+        "k_target": 2.0
+      },
+      "lot_size": 0.04,
+      "stop_pips": 2834.8,
+      "stop_price": 28.3478,
+      "actual_risk": 113.39,
+      "commission": 0.08,
+      "total_risk": 113.47,
+      "notional": 12219.0,
+      "margin": 122.19,
+      "margin_pct": 2.44
+    },
+    "Euro": {
+      "symbol": "EURUSD",
+      "strategy": "donchian_vbo",
+      "params": {
+        "channel_n": 20,
+        "atr_n": 14,
+        "k_stop": 2.0,
+        "k_target": 2.0
+      },
+      "lot_size": 0.23,
+      "stop_pips": 53.5,
+      "stop_price": 0.0054,
+      "actual_risk": 123.09,
+      "commission": 0.46,
+      "total_risk": 123.55,
+      "notional": 25547.0,
+      "margin": 255.47,
+      "margin_pct": 5.11
+    }
+  }
+}
