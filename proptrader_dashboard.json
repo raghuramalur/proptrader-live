@@ -1,0 +1,15 @@
+{
+  "generated_at": "1970-01-01T00:00:00Z",
+  "account_size": 5000,
+  "optimal_risk_pct": 2.5,
+  "realised_pnl": 0,
+  "unrealised_pnl": 0,
+  "total_pnl": 0,
+  "total_trades": 0,
+  "wins": 0,
+  "losses": 0,
+  "win_rate": 0,
+  "open_positions": {},
+  "last_check": "never",
+  "assets": ["Gold", "Euro"]
+}
