@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROPTRADER // PAPER COMMAND</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#020408;--panel:#09131e;--border:#0d2d3f;
+    --green:#00ff88;--cyan:#00e5ff;--amber:#ffb300;
+    --red:#ff3860;--dim:#1a4a5e;--text:#8ecfdf;--dim2:#2a6070;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;
+       font-size:13px;min-height:100vh;overflow-x:hidden}
+  body::before{content:'';position:fixed;inset:0;z-index:9999;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,
+      rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);pointer-events:none}
+  body::after{content:'';position:fixed;inset:0;z-index:0;
+    background-image:linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);
+    background-size:40px 40px;pointer-events:none}
+  .wrap{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:20px 16px}
+
+  header{display:flex;justify-content:space-between;align-items:flex-start;
+    border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:22px}
+  .logo{font-family:'Orbitron',sans-serif;font-size:26px;font-weight:900;color:var(--cyan);
+    text-shadow:0 0 20px rgba(0,229,255,.6);letter-spacing:4px}
+  .logo span{color:var(--green)}
+  .hright{text-align:right;font-size:11px;color:var(--dim2)}
+  .badge{display:inline-block;padding:3px 10px;border:1px solid var(--amber);
+    color:var(--amber);font-family:'Orbitron',sans-serif;font-size:10px;
+    letter-spacing:2px;margin-bottom:4px}
+
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+  @media(max-width:800px){.metrics{grid-template-columns:repeat(2,1fr)}}
+  .card{background:var(--panel);border:1px solid var(--border);
+    border-top:2px solid var(--cyan);padding:16px 18px;position:relative;overflow:hidden}
+  .card:nth-child(2){border-top-color:var(--green)}
+  .card:nth-child(3){border-top-color:var(--amber)}
+  .card:nth-child(4){border-top-color:#b060ff}
+  .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+    animation:scan 3s linear infinite}
+  .card:nth-child(2)::before{background:linear-gradient(90deg,transparent,var(--green),transparent);animation-delay:.4s}
+  .card:nth-child(3)::before{background:linear-gradient(90deg,transparent,var(--amber),transparent);animation-delay:.8s}
+  .card:nth-child(4)::before{background:linear-gradient(90deg,transparent,#b060ff,transparent);animation-delay:1.2s}
+  @keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+  .clabel{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim2);margin-bottom:6px}
+  .cval{font-family:'Orbitron',sans-serif;font-size:24px;font-weight:700;color:var(--cyan);line-height:1}
+  .card:nth-child(2) .cval{color:var(--green)}
+  .card:nth-child(3) .cval{color:var(--amber)}
+  .card:nth-child(4) .cval{color:#b060ff}
+  .cval.pos{color:var(--green)!important}
+  .cval.neg{color:var(--red)!important}
+  .csub{font-size:11px;color:var(--dim2);margin-top:5px}
+
+  .mid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+  @media(max-width:700px){.mid{grid-template-columns:1fr}}
+  .panel{background:var(--panel);border:1px solid var(--border)}
+  .phead{background:#060d14;border-bottom:1px solid var(--border);
+    padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+  .ptitle{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;
+    letter-spacing:3px;color:var(--cyan);text-transform:uppercase}
+  .pbody{padding:14px 16px}
+
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{color:var(--dim2);font-weight:normal;letter-spacing:1px;text-transform:uppercase;
+    font-size:10px;padding:6px 8px;border-bottom:1px solid var(--border);text-align:right}
+  th:first-child{text-align:left}
+  td{padding:9px 8px;border-bottom:1px solid rgba(13,45,63,.4);text-align:right;color:var(--text)}
+  td:first-child{text-align:left;color:var(--cyan)}
+  tr:last-child td{border-bottom:none}
+  tr:hover td{background:rgba(0,229,255,.03)}
+  .pos{color:var(--green)}.neg{color:var(--red)}
+
+  /* trade history */
+  .trades-panel{margin-bottom:18px}
+  .empty{text-align:center;color:var(--dim2);padding:24px;font-size:12px}
+
+  /* position card */
+  .pos-card{background:rgba(0,229,255,.04);border:1px solid var(--cyan);
+    padding:12px 16px;margin-bottom:8px}
+  .pos-header{display:flex;justify-content:space-between;margin-bottom:8px}
+  .pos-asset{font-family:'Orbitron',sans-serif;font-size:13px;color:var(--cyan)}
+  .dir-badge{padding:2px 8px;font-size:10px;letter-spacing:2px}
+  .dir-badge.long{border:1px solid var(--green);color:var(--green)}
+  .dir-badge.short{border:1px solid var(--red);color:var(--red)}
+  .pos-row{display:flex;gap:24px;font-size:11px;color:var(--text)}
+  .pos-row span{color:var(--dim2)}
+
+  footer{border-top:1px solid var(--border);margin-top:18px;padding-top:12px;
+    display:flex;justify-content:space-between;font-size:11px;color:var(--dim2)}
+
+  #loading{position:fixed;inset:0;background:var(--bg);z-index:999;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+  .blink{font-family:'Orbitron',sans-serif;font-size:12px;color:var(--cyan);
+    letter-spacing:3px;animation:blink 1s step-start infinite}
+  @keyframes blink{50%{opacity:0}}
+</style>
+</head>
+<body>
+<div id="loading">
+  <div style="font-family:Orbitron;font-size:30px;font-weight:900;color:var(--cyan);
+    text-shadow:0 0 30px rgba(0,229,255,.8);letter-spacing:5px">PROPTRADER</div>
+  <div class="blink">LOADING SIGNAL DATA...</div>
+</div>
+
+<div class="wrap" id="app" style="display:none">
+  <header>
+    <div>
+      <div class="logo">PROP<span>TRADER</span> // PAPER</div>
+      <div style="font-size:11px;color:var(--dim2);margin-top:4px;letter-spacing:2px">
+        DONCHIAN BREAKOUT SYSTEM · GOLD + EURO · FUNDING PIPS $5K</div>
+    </div>
+    <div class="hright">
+      <div class="badge">● PAPER TRADING</div>
+      <div id="last-check">LAST CHECK: —</div>
+      <div id="risk-level" style="margin-top:2px">RISK: —</div>
+    </div>
+  </header>
+
+  <div class="metrics">
+    <div class="card">
+      <div class="clabel">◈ Total P&L</div>
+      <div class="cval" id="m-pnl">—</div>
+      <div class="csub" id="m-pnl-sub">realised + unrealised</div>
+    </div>
+    <div class="card">
+      <div class="clabel">◈ Realised P&L</div>
+      <div class="cval" id="m-real">—</div>
+      <div class="csub" id="m-real-sub">from closed trades</div>
+    </div>
+    <div class="card">
+      <div class="clabel">◈ Win Rate</div>
+      <div class="cval" id="m-wr">—</div>
+      <div class="csub" id="m-trades">— trades total</div>
+    </div>
+    <div class="card">
+      <div class="clabel">◈ Open Positions</div>
+      <div class="cval" id="m-open">—</div>
+      <div class="csub">active paper trades</div>
+    </div>
+  </div>
+
+  <div class="mid">
+    <div class="panel">
+      <div class="phead">
+        <div class="ptitle">⬡ Open Positions</div>
+        <div style="font-size:10px;color:var(--dim2)">LIVE PAPER</div>
+      </div>
+      <div class="pbody" id="open-positions-body"></div>
+    </div>
+    <div class="panel">
+      <div class="phead">
+        <div class="ptitle">⬡ System Parameters</div>
+        <div style="font-size:10px;color:var(--dim2)">FROM STAGE 4</div>
+      </div>
+      <div class="pbody" id="params-body"></div>
+    </div>
+  </div>
+
+  <div class="panel trades-panel">
+    <div class="phead">
+      <div class="ptitle">⬡ Trade History</div>
+      <div style="font-size:10px;color:var(--dim2)" id="trade-count">CLOSED TRADES</div>
+    </div>
+    <div style="padding:0">
+      <table>
+        <thead>
+          <tr>
+            <th>Asset</th><th>Dir</th><th>Entry</th><th>Exit</th>
+            <th>P&L %</th><th>P&L $</th><th>Reason</th><th>Bars</th>
+          </tr>
+        </thead>
+        <tbody id="trade-table"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <div>PropTrader · Donchian Breakout · Funding Pips $5K Easy</div>
+    <div id="gen-time">GENERATED: —</div>
+  </footer>
+</div>
+
+<script>
+const fmt2 = n => (n>=0?'+':'')+n.toFixed(2);
+const fmtD = n => (n>=0?'+$':'-$')+Math.abs(n).toFixed(2);
+const fmtP = n => (n>=0?'+':'')+n.toFixed(1)+'%';
+
+async function load(){
+  try{
+    const r = await fetch('proptrader_dashboard.json?_='+Date.now());
+    const d = await r.json();
+
+    document.getElementById('last-check').textContent = 'LAST CHECK: '+d.last_check;
+    document.getElementById('risk-level').textContent = 'RISK: '+d.optimal_risk_pct+'% per trade';
+
+    // Big numbers
+    const pnl = d.total_pnl||0;
+    const pnlEl = document.getElementById('m-pnl');
+    pnlEl.textContent = fmtD(pnl);
+    pnlEl.className = 'cval '+(pnl>=0?'pos':'neg');
+    document.getElementById('m-pnl-sub').textContent =
+      `realised ${fmtD(d.realised_pnl||0)} + unreal ${fmtD(d.unrealised_pnl||0)}`;
+
+    const real = d.realised_pnl||0;
+    const realEl = document.getElementById('m-real');
+    realEl.textContent = fmtD(real);
+    realEl.className = 'cval '+(real>=0?'pos':'neg');
+    document.getElementById('m-real-sub').textContent =
+      `W=${d.wins||0}  L=${d.losses||0}`;
+
+    document.getElementById('m-wr').textContent =
+      d.total_trades>0 ? ((d.win_rate||0)*100).toFixed(1)+'%' : '—';
+    document.getElementById('m-trades').textContent =
+      (d.total_trades||0)+' trades total';
+
+    const nOpen = Object.keys(d.open_positions||{}).length;
+    document.getElementById('m-open').textContent = nOpen;
+
+    // Open positions
+    const opBody = document.getElementById('open-positions-body');
+    if(nOpen===0){
+      opBody.innerHTML='<div class="empty">No open positions — scanning every 4H</div>';
+    } else {
+      opBody.innerHTML = Object.entries(d.open_positions).map(([asset,pos])=>{
+        const isLong = pos.direction==='LONG';
+        const pnlSign = isLong ? 1 : -1;
+        return `
+          <div class="pos-card">
+            <div class="pos-header">
+              <span class="pos-asset">${asset} (${pos.symbol})</span>
+              <span class="dir-badge ${isLong?'long':'short'}">${pos.direction}</span>
+            </div>
+            <div class="pos-row">
+              <div><span>Entry </span>${pos.entry_price}</div>
+              <div><span>Stop </span>${pos.stop_price}</div>
+              <div><span>Target </span>${pos.target_price}</div>
+              <div><span>Lots </span>${pos.lot_size}</div>
+              <div><span>Bars </span>${pos.bars_held||0}/90</div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // Parameters
+    document.getElementById('params-body').innerHTML = `
+      <table>
+        <tr><td style="text-align:left;color:var(--dim2)">Account</td>
+            <td>$${d.account_size?.toLocaleString()}</td></tr>
+        <tr><td style="text-align:left;color:var(--dim2)">Risk/Trade</td>
+            <td>${d.optimal_risk_pct}% = $${(d.account_size*d.optimal_risk_pct/100).toFixed(0)}</td></tr>
+        <tr><td style="text-align:left;color:var(--dim2)">Assets</td>
+            <td>${(d.assets||[]).join(' + ')}</td></tr>
+        <tr><td style="text-align:left;color:var(--dim2)">Strategy</td>
+            <td>Donchian VBO</td></tr>
+        <tr><td style="text-align:left;color:var(--dim2)">Max Hold</td>
+            <td>90 bars (~15 days)</td></tr>
+        <tr><td style="text-align:left;color:var(--dim2)">Signal freq</td>
+            <td>Every 4H (Mon-Fri)</td></tr>
+      </table>`;
+
+    // Trade history
+    const tbody = document.getElementById('trade-table');
+    document.getElementById('trade-count').textContent = (d.total_trades||0)+' CLOSED TRADES';
+    // Note: full history is in paper_trade_log.csv; dashboard shows summary only
+    if((d.total_trades||0)===0){
+      tbody.innerHTML='<tr><td colspan="8" class="empty">No completed trades yet</td></tr>';
+    } else {
+      tbody.innerHTML='<tr><td colspan="8" class="empty" style="font-size:11px">'+
+        d.total_trades+' trades completed — see paper_trade_log.csv for full history</td></tr>';
+    }
+
+    document.getElementById('gen-time').textContent =
+      'GENERATED: '+new Date(d.generated_at).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})+' IST';
+
+    document.getElementById('loading').style.display='none';
+    document.getElementById('app').style.display='block';
+  } catch(e){
+    document.getElementById('loading').innerHTML=
+      `<div style="font-family:Orbitron;color:var(--red);letter-spacing:3px;font-size:14px">
+        DATA UNAVAILABLE<br>
+        <span style="font-size:11px;color:var(--text);font-family:Share Tech Mono">${e.message}</span>
+      </div>`;
+  }
+}
+window.onload=load;
+</script>
+</body>
+</html>
