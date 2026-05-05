@@ -1,15 +1,18 @@
 {
-  "generated_at": "1970-01-01T00:00:00Z",
-  "account_size": 5000,
+  "generated_at": "2026-05-05T18:40:55.294713Z",
+  "account_size": 5000.0,
   "optimal_risk_pct": 2.5,
-  "realised_pnl": 0,
-  "unrealised_pnl": 0,
-  "total_pnl": 0,
+  "realised_pnl": 0.0,
+  "unrealised_pnl": 0.0,
+  "total_pnl": 0.0,
   "total_trades": 0,
   "wins": 0,
   "losses": 0,
   "win_rate": 0,
   "open_positions": {},
-  "last_check": "never",
-  "assets": ["Gold", "Euro"]
+  "last_check": "2026-05-05 18:40 UTC",
+  "assets": [
+    "Gold",
+    "Euro"
+  ]
 }
