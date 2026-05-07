@@ -269,9 +269,23 @@ async function load(){
     // Note: full history is in paper_trade_log.csv; dashboard shows summary only
     if((d.total_trades||0)===0){
       tbody.innerHTML='<tr><td colspan="8" class="empty">No completed trades yet</td></tr>';
+    } else if(d.recent_trades && d.recent_trades.length>0){
+      tbody.innerHTML=[...d.recent_trades].reverse().map(t=>{
+        const pnl=parseFloat(t.pnl_dollar||0);
+        return `<tr>
+          <td>${t.asset}</td>
+          <td>${t.direction}</td>
+          <td>${parseFloat(t.entry_price).toFixed(4)}</td>
+          <td>${parseFloat(t.exit_price).toFixed(4)}</td>
+          <td class="${pnl>=0?'pos':'neg'}">${parseFloat(t.pnl_pct||0).toFixed(2)}%</td>
+          <td class="${pnl>=0?'pos':'neg'}">${pnl>=0?'+$':'-$'}${Math.abs(pnl).toFixed(2)}</td>
+          <td>${t.exit_reason}</td>
+          <td>${t.bars_held}</td>
+        </tr>`;
+      }).join('');
     } else {
       tbody.innerHTML='<tr><td colspan="8" class="empty" style="font-size:11px">'+
-        d.total_trades+' trades completed — see paper_trade_log.csv for full history</td></tr>';
+        d.total_trades+' trades — see paper_trade_log.csv</td></tr>';
     }
 
     document.getElementById('gen-time').textContent =
