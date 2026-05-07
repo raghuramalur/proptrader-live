@@ -373,8 +373,14 @@ for asset_name, pos in open_positions.items():
         unrealised += (price - entry) * side * lot * 100000
 
 # ── BUILD DASHBOARD JSON ──────────────────────────────────────────────────────
+# Load recent trades for dashboard display
+recent_trades = []
+if os.path.exists(TRADE_LOG_FILE):
+    with open(TRADE_LOG_FILE) as f:
+        recent_trades = list(csv.DictReader(f))[-20:]
 dashboard = {
     "generated_at":     datetime.utcnow().isoformat() + "Z",
+    "recent_trades":    recent_trades,
     "account_size":     ACCOUNT_SIZE,
     "optimal_risk_pct": OPTIMAL_RISK * 100,
     "realised_pnl":     round(total_pnl, 2),
