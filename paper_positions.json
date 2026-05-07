@@ -8,7 +8,7 @@
     "target_price": 4800.899109333334,
     "lot_size": 0.04,
     "entry_time": "2026-05-07T06:47:23.920996",
-    "bars_held": 0,
+    "bars_held": 1,
     "atr_at_entry": 26.69588966666676
   }
 }
