@@ -1,2 +1,1 @@
 date,asset,direction,entry_time,exit_time,entry_price,exit_price,lot_size,pnl_pct,pnl_dollar,exit_reason,bars_held
-2026-05-07,Gold,LONG,2026-05-07T06:47:23.920996,2026-05-07T17:56:09.033121,4747.50733,4707.4634955,0.04,-0.8435,-160.18,STOP,3
