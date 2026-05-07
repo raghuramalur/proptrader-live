@@ -299,11 +299,27 @@ for asset_name, cfg in ASSETS.items():
         stop_price  = signal["stop_price"]
         target_price = signal["target_price"]
 
+        # Dynamic lot size using CURRENT ATR (not stale Stage 4 average)
+        live_atr = signal["atr"]
+        if symbol == "XAUUSD":
+            dynamic_lot = ACCOUNT_SIZE * OPTIMAL_RISK / (live_atr * k_stop * 100)
+        elif symbol == "EURUSD":
+            dynamic_lot = ACCOUNT_SIZE * OPTIMAL_RISK / (live_atr * k_stop / 0.0001 * 10)
+        else:
+            dynamic_lot = lot_size
+        dynamic_lot = max(round(round(dynamic_lot / 0.01) * 0.01, 2), 0.01)
+        actual_risk = dynamic_lot * live_atr * k_stop * (100 if symbol == "XAUUSD" else 100000 * 0.0001 / 0.0001 * 0.0 + 10 / 0.0001 * 0.0001 if symbol == "EURUSD" else 1)
+        # Simpler: just show approximate dollar risk
+        if symbol == "XAUUSD":
+            approx_risk = dynamic_lot * live_atr * k_stop * 100
+        else:
+            approx_risk = dynamic_lot * live_atr * k_stop / 0.0001 * 10
+
         print(f"  → *** SIGNAL: {direction} ***")
         print(f"     Entry:  {entry_price:.4f}")
         print(f"     Stop:   {stop_price:.4f}  (dist={abs(entry_price-stop_price):.4f})")
         print(f"     Target: {target_price:.4f}  (dist={abs(entry_price-target_price):.4f})")
-        print(f"     Lot:    {lot_size} | Risk: ~${ACCOUNT_SIZE*OPTIMAL_RISK:.2f}")
+        print(f"     Lot:    {dynamic_lot} (dynamic, live ATR={live_atr:.2f}) | Risk: ~${approx_risk:.0f}")
 
         open_positions[asset_name] = {
             "symbol":       symbol,
@@ -312,10 +328,10 @@ for asset_name, cfg in ASSETS.items():
             "entry_price":  entry_price,
             "stop_price":   stop_price,
             "target_price": target_price,
-            "lot_size":     lot_size,
+            "lot_size":     dynamic_lot,
             "entry_time":   datetime.utcnow().isoformat(),
             "bars_held":    0,
-            "atr_at_entry": signal["atr"],
+            "atr_at_entry": live_atr,
         }
 
 # ── WRITE COMPLETED TRADES TO LOG ─────────────────────────────────────────────
