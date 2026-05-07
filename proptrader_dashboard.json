@@ -1,29 +1,16 @@
 {
-  "generated_at": "2026-05-07T14:42:38.186744Z",
+  "generated_at": "2026-05-07T17:56:17.148030Z",
   "account_size": 5000.0,
   "optimal_risk_pct": 2.5,
-  "realised_pnl": 0.0,
-  "unrealised_pnl": 21.25,
-  "total_pnl": 21.25,
-  "total_trades": 0,
+  "realised_pnl": -160.18,
+  "unrealised_pnl": 0.0,
+  "total_pnl": -160.18,
+  "total_trades": 1,
   "wins": 0,
-  "losses": 0,
-  "win_rate": 0,
-  "open_positions": {
-    "Gold": {
-      "symbol": "XAUUSD",
-      "direction": "LONG",
-      "side": 1,
-      "entry_price": 4747.50733,
-      "stop_price": 4707.4634955,
-      "target_price": 4800.899109333334,
-      "lot_size": 0.04,
-      "entry_time": "2026-05-07T06:47:23.920996",
-      "bars_held": 2,
-      "atr_at_entry": 26.69588966666676
-    }
-  },
-  "last_check": "2026-05-07 14:42 UTC",
+  "losses": 1,
+  "win_rate": 0.0,
+  "open_positions": {},
+  "last_check": "2026-05-07 17:56 UTC",
   "assets": [
     "Gold",
     "Euro"
