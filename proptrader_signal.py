@@ -41,15 +41,21 @@ with open(SIZING_FILE) as f:
     sizing = json.load(f)
 
 # Asset config — params come from Stage 2, lots from Stage 4
+# Load from positions_by_asset (keyed as "Gold"/"Euro", not "Gold_donchian_vbo")
+# Takes the primary (first) strategy per asset — highest OOS Sortino from Stage 2
 ASSETS = {}
-for asset_name, pos in sizing["positions"].items():
+for asset_name, strategy_list in sizing.get("positions_by_asset", {}).items():
+    if not strategy_list:
+        continue
+    primary = strategy_list[0]   # primary = index 0 = best OOS Sortino
     ASSETS[asset_name] = {
-        "symbol":    pos["symbol"],            # XAUUSD or EURUSD
-        "lot_size":  pos["lot_size"],
-        "k_stop":    pos["params"]["k_stop"],
-        "k_target":  pos["params"]["k_target"],
-        "channel_n": pos["params"]["channel_n"],
-        "atr_n":     pos["params"]["atr_n"],
+        "symbol":    primary["symbol"],
+        "lot_size":  primary["lot_size"],
+        "k_stop":    primary["params"]["k_stop"],
+        "k_target":  primary["params"]["k_target"],
+        "channel_n": primary["params"]["channel_n"],
+        "atr_n":     primary["params"]["atr_n"],
+        "strategy":  primary["strategy"],
     }
 
 # TwelveData symbol mapping
@@ -58,6 +64,7 @@ TD_SYMBOLS = {
     "EURUSD": "EUR/USD",
     "BTCUSD": "BTC/USD",
     "NVDA":   "NVDA",
+    "NAS100": "QQQ",
 }
 
 ACCOUNT_SIZE   = sizing["account_size"]
