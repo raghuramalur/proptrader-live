@@ -1,15 +1,16 @@
 {
-  "generated_at": "2026-05-05T09:09:47.306159+00:00Z",
+  "generated_at": "2026-05-08T19:42:15.025479+00:00Z",
   "source_optimal_risk": "data/stage_2/monte_carlo_optimal.json",
   "source_atr_price": "data/stage_1/manifest.json",
-  "source_params": "data/stage_2/*_results.json",
+  "source_params": "data/stage_2/all_per_asset.json",
   "account_size": 5000.0,
-  "optimal_risk": 0.025,
-  "risk_dollar": 125.0,
+  "optimal_risk": 0.0225,
+  "risk_dollar": 112.5,
   "leverage": 100,
   "positions": {
-    "Gold": {
+    "Gold_donchian_vbo": {
       "symbol": "XAUUSD",
+      "asset": "Gold",
       "strategy": "donchian_vbo",
       "params": {
         "channel_n": 30,
@@ -18,33 +19,80 @@
         "k_target": 2.0
       },
       "lot_size": 0.04,
-      "stop_pips": 2834.8,
-      "stop_price": 28.3478,
-      "actual_risk": 113.39,
+      "stop_pips": 2852.9,
+      "stop_price": 28.5286,
+      "actual_risk": 114.11,
       "commission": 0.08,
-      "total_risk": 113.47,
-      "notional": 12219.0,
-      "margin": 122.19,
-      "margin_pct": 2.44
+      "total_risk": 114.19,
+      "notional": 12264.0,
+      "margin": 122.64,
+      "margin_pct": 2.45
     },
-    "Euro": {
+    "Euro_donchian_vbo": {
       "symbol": "EURUSD",
+      "asset": "Euro",
       "strategy": "donchian_vbo",
       "params": {
-        "channel_n": 20,
+        "channel_n": 30,
         "atr_n": 14,
         "k_stop": 2.0,
-        "k_target": 2.0
+        "k_target": 4.0
       },
-      "lot_size": 0.23,
+      "lot_size": 0.21,
       "stop_pips": 53.5,
-      "stop_price": 0.0054,
-      "actual_risk": 123.09,
-      "commission": 0.46,
-      "total_risk": 123.55,
-      "notional": 25547.0,
-      "margin": 255.47,
-      "margin_pct": 5.11
+      "stop_price": 0.0053,
+      "actual_risk": 112.31,
+      "commission": 0.42,
+      "total_risk": 112.73,
+      "notional": 23332.0,
+      "margin": 233.32,
+      "margin_pct": 4.67
     }
+  },
+  "positions_by_asset": {
+    "Gold": [
+      {
+        "symbol": "XAUUSD",
+        "asset": "Gold",
+        "strategy": "donchian_vbo",
+        "params": {
+          "channel_n": 30,
+          "atr_n": 30,
+          "k_stop": 1.5,
+          "k_target": 2.0
+        },
+        "lot_size": 0.04,
+        "stop_pips": 2852.9,
+        "stop_price": 28.5286,
+        "actual_risk": 114.11,
+        "commission": 0.08,
+        "total_risk": 114.19,
+        "notional": 12264.0,
+        "margin": 122.64,
+        "margin_pct": 2.45
+      }
+    ],
+    "Euro": [
+      {
+        "symbol": "EURUSD",
+        "asset": "Euro",
+        "strategy": "donchian_vbo",
+        "params": {
+          "channel_n": 30,
+          "atr_n": 14,
+          "k_stop": 2.0,
+          "k_target": 4.0
+        },
+        "lot_size": 0.21,
+        "stop_pips": 53.5,
+        "stop_price": 0.0053,
+        "actual_risk": 112.31,
+        "commission": 0.42,
+        "total_risk": 112.73,
+        "notional": 23332.0,
+        "margin": 233.32,
+        "margin_pct": 4.67
+      }
+    ]
   }
 }
