@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-12T21:25:57.433211Z",
+  "generated_at": "2026-05-13T04:08:50.701581Z",
   "recent_trades": [],
   "account_size": 5000.0,
   "optimal_risk_pct": 2.25,
@@ -11,7 +11,7 @@
   "losses": 0,
   "win_rate": 0,
   "open_positions": {},
-  "last_check": "2026-05-12 21:25 UTC",
+  "last_check": "2026-05-13 04:08 UTC",
   "assets": [
     "Gold",
     "Euro"
